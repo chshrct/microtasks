@@ -6,36 +6,42 @@ import {Input} from "./components/Input";
 import {ButtonInp} from "./components/ButtonInp";
 
 function App() {
-    let [messages, setMessages] = useState([
-            {message: 'message1'},
-            {message: 'message2'},
-            {message: 'message3'},
-        ]
-    )
-    const [message,setMessage] = useState('')
-    // const addMessage = (str:string) => {
-    //     setMessages([{message:str},...messages])
-    // }
 
-    const addMessage = () => {
-        setMessages([{message:message},...messages])
-        setMessage('')
-    }
+    const [money, setMoney] = useState([
+        { banknots: 'Dollars', nominal: 100, number: ' a1234567890' },
+        { banknots: 'Dollars', nominal: 50, number: ' z1234567890' },
+        { banknots: 'RUBLS', nominal: 100, number: ' w1234567890' },
+        { banknots: 'Dollars', nominal: 100, number: ' e1234567890' },
+        { banknots: 'Dollars', nominal: 50, number: ' c1234567890' },
+        { banknots: 'RUBLS', nominal: 100, number: ' r1234567890' },
+        { banknots: 'Dollars', nominal: 50, number: ' x1234567890' },
+        { banknots: 'RUBLS', nominal: 50, number: ' v1234567890' },
+    ])
 
-    const updateMessage = (msg:string) => {
-        setMessage(msg)
-    }
+    const [filter,setFilter] = useState('all')
 
+    let currentMoney = money
 
-    return (
-        <div className="App">
-            {/*<FullInput addMessage={addMessage}/>*/}
-            <Input updateMessage={updateMessage} value={message}/>
-            <ButtonInp name={'+'} addMessage={addMessage}/>
-            {messages.map(
-                (el, index) => <div key={index}>{el.message}</div>
-            )}
-        </div>
+    if(filter==='all') currentMoney=money
+    if(filter==='ru') currentMoney=money.filter(el=>el.banknots==='RUBLS')
+    if(filter==='usd') currentMoney=money.filter(el=>el.banknots==='Dollars')
+
+    return (<>
+        <ul>
+            {currentMoney.map(objFromMoneyArr=>{
+                return (
+                    <li key={objFromMoneyArr.number}>
+                        <span>{objFromMoneyArr.banknots}</span>
+                        <span>{objFromMoneyArr.nominal}</span>
+                        <span>{objFromMoneyArr.number}</span>
+                    </li>
+                )
+            })}
+        </ul>
+            <button onClick={()=>setFilter('all')}>All</button>
+            <button onClick={()=>setFilter('ru')}>Ru</button>
+            <button onClick={()=>setFilter('usd')}>Dollars</button>
+        </>
     );
 }
 
