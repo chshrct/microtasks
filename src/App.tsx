@@ -1,24 +1,42 @@
-import React, {MouseEvent} from 'react';
+import React, {MouseEvent, useState} from 'react';
 import './App.css';
 import {Button} from "./components/Button";
+import {FullInput} from "./components/FullInput";
+import {Input} from "./components/Input";
+import {ButtonInp} from "./components/ButtonInp";
 
 function App() {
+    let [messages, setMessages] = useState([
+            {message: 'message1'},
+            {message: 'message2'},
+            {message: 'message3'},
+        ]
+    )
+    const [message,setMessage] = useState('')
+    // const addMessage = (str:string) => {
+    //     setMessages([{message:str},...messages])
+    // }
 
-    const buttonFoo = (name:string,age:number) => {
-        console.log(name,age)
+    const addMessage = () => {
+        setMessages([{message:message},...messages])
+        setMessage('')
     }
-    const stupidButtonHello = ()=>console.log('im stupid button')
+
+    const updateMessage = (msg:string) => {
+        setMessage(msg)
+    }
 
 
-  return (
-    <div className="App">
-      <Button name={'YoutubeChannel1'}
-              callback={()=>buttonFoo('Vasiliy',21)}/>
-      <Button name={'YoutubeChannel2'}
-              callback={()=>buttonFoo('Aleksey',36)}/>
-        <Button name={'+'} callback={stupidButtonHello}/>
-    </div>
-  );
+    return (
+        <div className="App">
+            {/*<FullInput addMessage={addMessage}/>*/}
+            <Input updateMessage={updateMessage} value={message}/>
+            <ButtonInp name={'+'} addMessage={addMessage}/>
+            {messages.map(
+                (el, index) => <div key={index}>{el.message}</div>
+            )}
+        </div>
+    );
 }
 
 export default App;
